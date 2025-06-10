@@ -206,3 +206,5 @@ print(contacto_manejador.listar_contactos())
 print(dato)
 
 """
+app= App()
+app.run()
