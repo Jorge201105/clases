@@ -1,7 +1,7 @@
+import os
 
 
-
-class contacto:
+class Contacto:
     """
     Nombre , e mail, telefono, 
     
@@ -30,7 +30,7 @@ class contacto:
         return repr(f"nombre :{self.nombre}, email :{self.email}, telefono :{self.telefono}")
 
 
-class ContactoTrabajo(contacto):
+class ContactoTrabajo(Contacto):
     #constructor del contacto trabajo
     def __init__(self, nombre, email, telefono, empresa, oficio):
         #constructor de contacto()
@@ -64,12 +64,12 @@ print(contacto.email)
         
 class Manejador:
     def __init__(self):
-        self.contactos:list[contacto] =[]
+        self.contactos:list[Contacto] =[]
 
-    def agregar_contacto(self,contacto:contacto):
-        self.contactos.append(contacto)
+    def agregar_contacto(self,contacto:Contacto):
+        self.contactos.append(Contacto)
 
-    def listar_contactos(self)-> list[contacto]:
+    def listar_contactos(self)-> list[Contacto]:
         return self.contactos
     
 
@@ -87,8 +87,94 @@ class Manejador:
         if contacto is not None:
             self.contactos
     
-    
-   
+
+class Consola_menu:
+    # 1.- limpiar la cionsola
+    # 2.- mostrar menu
+
+    @staticmethod
+    def limpiar_consola():
+        os.system("cls" if os.name == "nt" else "clear")
+
+    @staticmethod
+    def mostar_menu():
+        print("""
+
+===Menu Contactos ===
+              
+1.- Agregar contacto
+2.- Agregar contacto trabajo
+3.- Listar contactos
+4.- Buscar usuario
+5.- Actualizar usuario
+6.- Eliminar usuario
+8.- salir
+        """)
+
+class Pedir_datos:
+
+    @staticmethod
+    def contcto_normal():
+        nombre = input("nombre :")
+        email = input("email :")
+        telefono = input("telefono :")
+        return Contacto(nombre, telefono, email)
+
+
+    @staticmethod
+    def contacto_empresa():
+        nombre = input("nombre :")
+        email = input("email :")
+        telefono = input("telefono :")
+        empresa = input("empresa :")
+        oficio = input(" oficio")
+        
+        return ContactoTrabajo(nombre, telefono, email, empresa, oficio)
+
+
+class App:
+    def __init__(self):
+        self.manejador = Manejador()
+
+
+    def run(self):
+        while True:
+            Consola_menu.limpiar_consola()
+            Consola_menu.mostar_menu()
+
+            opcion = input("Elige una opcion : ")
+            if opcion == "1":
+                c = Pedir_datos.contcto_normal() # type: ignore
+                self.manejador.agregar_contacto(c)
+                print("contacto agregado !! ")
+                input ("enter para contunuar")
+
+            elif opcion == "2":
+                ct = Pedir_datos.contacto_empresa()
+                self.manejador.agregar_contacto(ct)
+                print("contacto agregado !")
+                input(" enter para continuar")
+
+            elif opcion == "3":
+                contactos = self.manejador.listar_contactos()
+                if contactos:     # si hay contactos esto lo toma como un sí
+                    for i in contactos:
+                        print(i)
+                else:
+                    print("sin contactos")
+
+
+
+
+
+
+
+
+
+
+
+
+"""  
 contacto_manejador = Manejador()
 
 contacto1 = contacto("juan","correo electronico", "3675346")
@@ -119,4 +205,4 @@ dato = contacto_manejador.agregar_contacto()
 print(contacto_manejador.listar_contactos())
 print(dato)
 
-
+"""
