@@ -7,20 +7,20 @@ class Contacto:
     
     """
     def __init__(self, nombre:str,email:str,telefono:str)-> None:
-        self.__nombre = nombre
-        self.__email = email
-        self.__telefono = telefono
+        self._nombre = nombre
+        self._email = email
+        self._telefono = telefono
 
     
     @property
     def nombre(self):
-        return self.__nombre
+        return self._nombre
     @property
     def email(self):
-        return self.__email
+        return self._email
     @property
     def telefono(self):
-        return self.__telefono
+        return self._telefono
     
     #mostrar todo
    # def mostrar_obj(self):
@@ -35,16 +35,16 @@ class ContactoTrabajo(Contacto):
     def __init__(self, nombre, email, telefono, empresa, oficio):
         #constructor de contacto()
         super().__init__(nombre, email, telefono)
-        self.__empresa = empresa
-        self.__oficio = oficio
+        self._empresa = empresa
+        self._oficio = oficio
 
     @property
     def empresa(self):
-        return self.__empresa
+        return self._empresa
 
     @property
     def oficio(self):
-        return self.__oficio
+        return self._oficio
 
      #mostrar todo
     def __repr__(self):
@@ -67,7 +67,7 @@ class Manejador:
         self.contactos:list[Contacto] =[]
 
     def agregar_contacto(self,contacto:Contacto):
-        self.contactos.append(Contacto)
+        self.contactos.append(contacto)
 
     def listar_contactos(self)-> list[Contacto]:
         return self.contactos
@@ -79,6 +79,22 @@ class Manejador:
             if i.nombre.lower() == nombre_minuscula:
                 return i
         return None
+
+    def actualizar_contacto(self,nombre,telefono,email):
+        c=self.buscar_contacto(nombre)
+        if c:
+            c.__telefono = telefono
+            c.__email = email
+            return None
+
+        else:
+            print("contacto no encontrado")
+
+
+
+
+
+
 
 
     
@@ -138,7 +154,8 @@ class App:
 
 
     def run(self):
-        while True:
+        verdad = True
+        while verdad == True:
             Consola_menu.limpiar_consola()
             Consola_menu.mostar_menu()
 
@@ -163,6 +180,37 @@ class App:
                 else:
                     print("sin contactos")
 
+            elif opcion =="4":
+                nombre = input("nombre contacto : ")
+                c= self.manejador.buscar_contacto(nombre)
+                if c:
+                    print(c)
+                else:
+                    print("contacto no encontrado")
+
+            elif opcion =="5":
+                nombre = input("nombre a actualizar")
+                telefono =input("nuevo telefono")
+                email = input("nuevo correo")
+                c=self.manejador.actualizar_contacto(nombre,email,telefono)
+                c.telefono = telefono
+                c.email = email
+                print("contacto actualizado")
+
+            elif opcion == "6":
+                nombre = input("contacto a borrar")
+                c = self.manejador.borrar_contacto(nombre)
+                print("contacto borrado")
+                
+            elif opcion =="7":
+                Consola_menu.limpiar_consola()
+                print("adios")
+                exit()
+
+            else:
+                print("opcion no valida")
+
+            
 
 
 
@@ -174,7 +222,11 @@ class App:
 
 
 
-"""  
+
+
+
+
+"""
 contacto_manejador = Manejador()
 
 contacto1 = contacto("juan","correo electronico", "3675346")
